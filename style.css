@@ -54,17 +54,16 @@ body{
     font-weight: 600;
 }
 
-.navbar {
+/*.navbar {
     position: absolute;
     top: 0;
     width:0;
     padding: 1rem 4%;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-}
+}*/
 
 
 .navbar a {
-    display: inline-block;
     font-size: 1.7rem;
     color: var(--text-color);
     font-weight: 500;
