@@ -671,33 +671,7 @@ span{
 
 
 /* BREAKPOINTS*/
-@media (max-width: 1200px) {
-    html{
-        font-size: 55%;
-
-    }
-}
-
-@media (max-width: 991px) {
-    .header {
-        padding:2rem 4%;
-    }
-
-    section{
-        padding:10rem 4% 2rem;
-    }
-
-    .home {
-        padding: 0 4%;
-    }
-
-    .footer {
-        padding: 2rem 4%;
-    }
-
-}
-
-/* Media query for screens up to 768px width */
+/* For devices with a width up to 767px (e.g., smartphones) */
 @media (max-width: 768px) {
         
     .header {
@@ -736,3 +710,34 @@ span{
     }
 
 }
+
+/* For devices with a width between 768px and 1023px (e.g., tablets) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .navbar {
+        position: static; 
+        width: 100%;
+        padding: 0; 
+        background: var(--bg-color);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+        transition: .25s ease;
+    }
+
+    .navbar.active {
+        left: 0;
+        transition-delay: 0s;
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 1.5rem; /* Adjust font size for better fit */
+        margin: 2rem 0; /* Adjust margin as needed */
+    }
+}
+    
+
+
+/* For devices with a width of 1024px and above (e.g., laptops and desktops) */
+@media (min-width: 1024px) {
+    /* Desktop-specific styles */
+}
+
