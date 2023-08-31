@@ -672,7 +672,7 @@ span{
 
 /* BREAKPOINTS*/
 /* For devices with a width up to 767px (e.g., smartphones) */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: landscape) {
         
     .header {
         background: var(--bg-color);
