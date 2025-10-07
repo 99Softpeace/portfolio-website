@@ -206,18 +206,17 @@ contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // Get form data
-    const formData = new FormData(contactForm);
     const data = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        mobile: formData.get('mobile'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
+        fullName: contactForm.querySelector('input[placeholder="Full Name"]').value,
+        email: contactForm.querySelector('input[placeholder="Email Address"]').value,
+        mobile: contactForm.querySelector('input[placeholder="Mobile Number"]').value,
+        subject: contactForm.querySelector('input[placeholder="Email Subject"]').value,
+        message: contactForm.querySelector('textarea[placeholder="Your Message"]').value,
     };
 
-    // --- IMPORTANT: UPDATE THIS URL ---
-    // Replace 'https://your-live-backend-url.onrender.com' with the URL from Render
-    const backendUrl = 'https://your-live-backend-url.onrender.com/send-email';
+    // --- THIS IS THE UPDATED LINE ---
+    // It now points to your live backend on Render
+    const backendUrl = 'https://peace-portfolio-backend.onrender.com/send-email';
 
     try {
         const response = await fetch(backendUrl, {
@@ -268,3 +267,4 @@ function showToast(message, type = 'success') {
 initHomeScene();
 initAboutScene();
 animate();
+
