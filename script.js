@@ -189,7 +189,6 @@ function animate() {
 
     // About Scene Animation
     if (aboutScene && aboutShape && aboutRenderer) {
-        // Slow constant rotation
         if (!aboutCanvas.matches(':hover')) {
             aboutShape.rotation.x += 0.001;
             aboutShape.rotation.y += 0.001;
@@ -198,48 +197,58 @@ function animate() {
     }
 }
 
-// --- Contact Form Submission ---
+// --- Contact Form Submission (Robust Version) ---
 const contactForm = document.querySelector('.contact form');
-const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+if (contactForm) {
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-    // Get form data
-    const data = {
-        fullName: contactForm.querySelector('input[placeholder="Full Name"]').value,
-        email: contactForm.querySelector('input[placeholder="Email Address"]').value,
-        mobile: contactForm.querySelector('input[placeholder="Mobile Number"]').value,
-        subject: contactForm.querySelector('input[placeholder="Email Subject"]').value,
-        message: contactForm.querySelector('textarea[placeholder="Your Message"]').value,
-    };
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Provide immediate user feedback
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
 
-    // --- THIS IS THE UPDATED LINE ---
-    // It now points to your live backend on Render
-    const backendUrl = 'https://peace-portfolio-backend.onrender.com/send-email';
+        // Get form data
+        const data = {
+            fullName: contactForm.querySelector('input[placeholder="Full Name"]').value,
+            email: contactForm.querySelector('input[placeholder="Email Address"]').value,
+            mobile: contactForm.querySelector('input[placeholder="Mobile Number"]').value,
+            subject: contactForm.querySelector('input[placeholder="Email Subject"]').value,
+            message: contactForm.querySelector('textarea[placeholder="Your Message"]').value,
+        };
 
-    try {
-        const response = await fetch(backendUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+        const backendUrl = 'https://peace-portfolio-backend.onrender.com/send-email';
 
-        const result = await response.json();
+        try {
+            const response = await fetch(backendUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
 
-        if (result.success) {
-            showToast(result.message, 'success');
-            contactForm.reset();
-        } else {
-            showToast(result.message, 'error');
+            const result = await response.json();
+
+            if (result.success) {
+                showToast(result.message, 'success');
+                contactForm.reset();
+            } else {
+                showToast(result.message, 'error');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            showToast('Could not connect to the server. Please check your connection.', 'error');
+        } finally {
+            // Re-enable the button and restore its text
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
         }
-    } catch (error) {
-        console.error('Error:', error);
-        showToast('Could not connect to the server. Please check your connection.', 'error');
-    }
-});
+    });
+} else {
+    console.error("Contact form not found. Check the selector '.contact form'.");
+}
 
 
 // --- Toast Notification Function ---
@@ -267,4 +276,3 @@ function showToast(message, type = 'success') {
 initHomeScene();
 initAboutScene();
 animate();
-
